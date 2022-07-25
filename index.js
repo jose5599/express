@@ -2,25 +2,43 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
+app.use(express.json());
+
 app.get('/', (req, res)=> {
   res.send("hola server mi express")
 });
 
-app.get('/nueva-ruta', (req, res)=> {
-  res.send("hola mi nueva ruta")
+app.post('/modificar_info_destructuring', (req, res)=> {
+  const {name2} = req.body;
+  res.json({
+    message: 'created',
+    data: {name2}
+  })
+
 })
 
-app.get('/products', (req, res)=> {
-  res.json([{
-    name: 'product1',
-    price: 150
-  },
-  {
-    name: 'product2',
-    price: 350
+app.post('/modificar_info_body', (req, res)=> {
+  const bodyComplete = req.body;
+  res.json({
+    message: 'created',
+    data: bodyComplete
+  })
+
+})
+
+app.get('/capturar_info', (req, res)=> {
+
+  const fetch = require('node-fetch');
+  async function info(){
+    const response = await fetch('https://pokeapi.co/api/v2')
+    const data = await response.json()
+    res.send(data)
   }
-])
+  info();
+
 });
+
+
 
 app.get('/products/:id',(req, res)=>{
  //const product = req.params.id; esta es una forma,
