@@ -8,18 +8,96 @@ app.get('/', (req, res)=> {
 
 app.get('/nueva-ruta', (req, res)=> {
   res.send("hola mi nueva ruta")
-})
+});
+
+app.get("/xml", (req, res, next) => {
+  let data = `<?xml version="1.0" encoding="UTF-8"?>`;
+  data += `<products>`;
+
+  for (let i = 0; i < 100; i++) {
+    data += `<item> 
+       <name>Product ${i}</name>
+       <price>${i}</price>
+    </item>`;
+  }
+
+    data += `</products>`;
+    res.header("Content-Type", "application/xml");
+    res.status(200).send(data);
+});
 
 app.get('/products', (req, res)=> {
-  res.json([{
-    name: 'product1',
-    price: 150
-  },
-  {
-    name: 'product2',
-    price: 350
-  }
-])
+  res.json(
+    {
+      "album_type": "compilation",
+      "total_tracks": 9,
+      "available_markets": [
+        "CA",
+        "BR",
+        "IT"
+      ],
+      "external_urls": {
+        "spotify": "string"
+      },
+      "href": "string",
+      "id": "2up3OPMp9Tb4dAKM2erWXQ",
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228\n",
+          "height": 300,
+          "width": 300
+        }
+      ],
+      "name": "string",
+      "release_date": "1981-12",
+      "release_date_precision": "year",
+      "restrictions": {
+        "reason": "market"
+      },
+      "type": "album",
+      "uri": "spotify:album:2up3OPMp9Tb4dAKM2erWXQ",
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "string"
+          },
+          "followers": {
+            "href": "string",
+            "total": 0
+          },
+          "genres": [
+            "Prog rock",
+            "Grunge"
+          ],
+          "href": "string",
+          "id": "string",
+          "images": [
+            {
+              "url": "https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228\n",
+              "height": 300,
+              "width": 300
+            }
+          ],
+          "name": "string",
+          "popularity": 0,
+          "type": "artist",
+          "uri": "string"
+        }
+      ],
+      "tracks": {
+        "href": "https://api.spotify.com/v1/me/shows?offset=0&limit=20\n",
+        "items": [
+          {}
+        ],
+        "limit": 20,
+        "next": "https://api.spotify.com/v1/me/shows?offset=1&limit=1",
+        "offset": 0,
+        "previous": "https://api.spotify.com/v1/me/shows?offset=1&limit=1",
+        "total": 4
+      }
+    }
+
+  )
 });
 
 app.get('/products/:id',(req, res)=>{
@@ -30,12 +108,28 @@ app.get('/products/:id',(req, res)=>{
   res.json(
     {
       id,
-      name: 'product2',
+      name: 'product111',
       price: 350
     }
   );
 
 });
+
+app.get('/clients/:id',(req, res)=>{
+  //const product = req.params.id; esta es una forma,
+  const {id} = req.params;
+  /*esta forma es más moderna con la destructuracion de ECMAScript y viene a decir de todos los parametros del objeto params solo me interesa el id.*/
+ 
+   res.json(
+     {
+       id,
+       name: 'jose',
+       mail: '350',
+       direction:'parc avenue'
+     }
+   );
+ 
+ });
 
 app.get('/categories/:categoryid/products/:productId',(req, res)=>{
   //const product = req.params.id; esta es una forma,
